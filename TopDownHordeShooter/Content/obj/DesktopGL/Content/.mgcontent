@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Profile>Reach</Profile>
+  <Platform>DesktopGL</Platform>
+  <Config />
+  <SourceFiles>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Fonts/File.spritefont</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Character-2.png</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Character-L.png</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Character-R.png</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Pickups.png</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/shader.fx</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Shots.png</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/stone_floor.png</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Weapons.png</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/ZOMBIE-DYING.gif</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/ZOMBIE-WALK5.gif</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/ZOMBIE-WHEN-DAMAGE-TAKEN.gif</File>
+  </SourceFiles>
+  <DestFiles>
+    <File>Fonts/Arial.spritefont</File>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+  </DestFiles>
+</SourceFileCollection>
