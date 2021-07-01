@@ -82,8 +82,11 @@ namespace TopDownHordeShooter.Utils
                 _sourceRect = new Rectangle(_currentFrame * FrameWidth, 0, FrameWidth, FrameHeight);
 
             // Grab the correct frame in the image strip by multiplying the currentFrame index by the frame width
-                _destinationRect = new Rectangle((int)Position.X - (int)(FrameWidth * _scale) / 2, (int)Position.Y
-                    - (int)(FrameHeight * _scale) / 2, (int)(FrameWidth * _scale), (int)(FrameHeight * _scale));
+                
+            _destinationRect = new Rectangle((int)Position.X, (int)Position.Y, (int)(FrameWidth * _scale), (int)(FrameHeight * _scale));
+            
+            //_destinationRect = new Rectangle((int)Position.X - (int)(FrameWidth * _scale) / 2, (int)Position.Y
+                    //- (int)(FrameHeight * _scale) / 2, (int)(FrameWidth * _scale), (int)(FrameHeight * _scale));
         }
 
         
@@ -91,10 +94,8 @@ namespace TopDownHordeShooter.Utils
         public void Draw(SpriteBatch spriteBatch)
         {
             // Only draw the animation when we are active
-            if (Active)
-            {
-                spriteBatch.Draw(_spriteStrip, _destinationRect, _sourceRect, _color);
-            }
+            if (!Active) return;
+            spriteBatch.Draw(_spriteStrip, _destinationRect, _sourceRect, _color);
         }
     }
 }

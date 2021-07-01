@@ -8,7 +8,7 @@ namespace TopDownHordeShooter.Utils.UI
     {
         private readonly SpriteFont _font;
 
-        public Text(ContentManager content,SpriteBatch mSpriteBatch)
+        public Text(ContentManager content)
         {
             _font = content.Load<SpriteFont> ("Fonts\\Arial");
         }

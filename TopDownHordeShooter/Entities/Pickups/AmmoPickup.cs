@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using TopDownHordeShooter.Entities.Characters;
 
 namespace TopDownHordeShooter.Entities.Pickups

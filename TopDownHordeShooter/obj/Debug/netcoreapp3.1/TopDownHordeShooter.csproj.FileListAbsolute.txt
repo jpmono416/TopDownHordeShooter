@@ -38,9 +38,6 @@ D:\Projects\RiderProjects\TopDownHordeShooter\TopDownHordeShooter\bin\Debug\netc
 D:\Projects\RiderProjects\TopDownHordeShooter\TopDownHordeShooter\bin\Debug\netcoreapp3.1\Content\Graphics\Shots.xnb
 D:\Projects\RiderProjects\TopDownHordeShooter\TopDownHordeShooter\bin\Debug\netcoreapp3.1\Content\Graphics\stone_floor.xnb
 D:\Projects\RiderProjects\TopDownHordeShooter\TopDownHordeShooter\bin\Debug\netcoreapp3.1\Content\Graphics\Weapons.xnb
-D:\Projects\RiderProjects\TopDownHordeShooter\TopDownHordeShooter\bin\Debug\netcoreapp3.1\Content\Graphics\ZOMBIE-DYING.xnb
-D:\Projects\RiderProjects\TopDownHordeShooter\TopDownHordeShooter\bin\Debug\netcoreapp3.1\Content\Graphics\ZOMBIE-WALK5.xnb
-D:\Projects\RiderProjects\TopDownHordeShooter\TopDownHordeShooter\bin\Debug\netcoreapp3.1\Content\Graphics\ZOMBIE-WHEN-DAMAGE-TAKEN.xnb
 D:\Projects\RiderProjects\TopDownHordeShooter\TopDownHordeShooter\bin\Debug\netcoreapp3.1\TopDownHordeShooter.exe
 D:\Projects\RiderProjects\TopDownHordeShooter\TopDownHordeShooter\bin\Debug\netcoreapp3.1\TopDownHordeShooter.deps.json
 D:\Projects\RiderProjects\TopDownHordeShooter\TopDownHordeShooter\bin\Debug\netcoreapp3.1\TopDownHordeShooter.runtimeconfig.json
@@ -99,3 +96,7 @@ C:\Users\jpmon\Downloads\RiderProjects\TopDownHordeShooter\TopDownHordeShooter\o
 D:\Projects\RiderProjects\TopDownHordeShooter\TopDownHordeShooter\obj\Debug\netcoreapp3.1\TopDownHordeShooter.csproj.AssemblyReference.cache
 D:\Projects\RiderProjects\TopDownHordeShooter\TopDownHordeShooter\bin\Debug\netcoreapp3.1\Content\Graphics\Pickups.xnb
 D:\Projects\RiderProjects\TopDownHordeShooter\TopDownHordeShooter\bin\Debug\netcoreapp3.1\Content\Fonts\Arial.xnb
+D:\Projects\RiderProjects\TopDownHordeShooter\TopDownHordeShooter\bin\Debug\netcoreapp3.1\Content\Graphics\Button.xnb
+D:\Projects\RiderProjects\TopDownHordeShooter\TopDownHordeShooter\bin\Debug\netcoreapp3.1\Content\Graphics\Zombie-Damage-Animation.xnb
+D:\Projects\RiderProjects\TopDownHordeShooter\TopDownHordeShooter\bin\Debug\netcoreapp3.1\Content\Graphics\Zombie-Dying-Animation.xnb
+D:\Projects\RiderProjects\TopDownHordeShooter\TopDownHordeShooter\bin\Debug\netcoreapp3.1\Content\Graphics\Zombie-Walking-Animation.xnb

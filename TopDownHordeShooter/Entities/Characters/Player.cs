@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using TopDownHordeShooter.Entities.Combat.Weapons;
 using TopDownHordeShooter.Utils;
 using TopDownHordeShooter.Utils.Events;
-using TopDownHordeShooter.Utils.Input;
 
 namespace TopDownHordeShooter.Entities.Characters
 {
@@ -42,12 +41,17 @@ namespace TopDownHordeShooter.Entities.Characters
             NextLevelXPRequired = 0;
             PlayerController = new PlayerController();
             _currentWeaponIndex = 0;
-            
+            CharacterAnimation = new Animation();
+            Animations = new List<Animation>();
             Active = true;
         }
-        public override void Initialize(Texture2D charTexture, Vector2 position)
+        public override void Initialize(List<Texture2D> animationSpritesheets, Vector2 position)
         {
-            CharacterTexture = charTexture;
+            CharacterTexture = animationSpritesheets[0];
+            CharacterAnimation.Initialize(CharacterTexture,Vector2.Zero, 64,60,1,30,Color.White,1,true);
+            
+            Animations.Add(CharacterAnimation);Animations.Add(CharacterAnimation);Animations.Add(CharacterAnimation);
+            
             Position = position;
             Hitbox = new Hitbox(position, Width, Height, ColliderType.Player);
             CurrentWeapon.Active = true;

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace TopDownHordeShooter.Utils.Events
+﻿namespace TopDownHordeShooter.Utils.Events
 {
     public class BaseEventController
     {

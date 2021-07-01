@@ -20,6 +20,18 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/File.spritefont;Fonts/Arial.spritefont
 
+#begin Graphics/Button.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Button.png
+
 #begin Graphics/Character-2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -110,7 +122,7 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/Weapons.png
 
-#begin Graphics/ZOMBIE-DYING.gif
+#begin Graphics/Zombie-Damage-Animation.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -120,9 +132,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Graphics/ZOMBIE-DYING.gif
+/build:Graphics/Zombie-Damage-Animation.png
 
-#begin Graphics/ZOMBIE-WALK5.gif
+#begin Graphics/Zombie-Dying-Animation.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -132,9 +144,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Graphics/ZOMBIE-WALK5.gif
+/build:Graphics/Zombie-Dying-Animation.png
 
-#begin Graphics/ZOMBIE-WHEN-DAMAGE-TAKEN.gif
+#begin Graphics/Zombie-Walking-Animation.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -144,5 +156,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Graphics/ZOMBIE-WHEN-DAMAGE-TAKEN.gif
+/build:Graphics/Zombie-Walking-Animation.png
 

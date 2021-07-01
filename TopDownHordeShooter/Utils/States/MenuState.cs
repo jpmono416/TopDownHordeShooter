@@ -14,8 +14,8 @@ namespace TopDownHordeShooter.Utils.States
         public MenuState(HordeShooterGame game, GraphicsDevice graphicsDevice, ContentManager content) 
             : base(game, graphicsDevice, content)
         {
-            var buttonTexture = _content.Load<Texture2D>("Controls/Button");
-            var buttonFont = _content.Load<SpriteFont>("Fonts/Font");
+            var buttonTexture = _content.Load<Texture2D>("Graphics/Button");
+            var buttonFont = _content.Load<SpriteFont>("Fonts/Arial");
 
             var newGameButton = new Button(buttonTexture, buttonFont)
             {

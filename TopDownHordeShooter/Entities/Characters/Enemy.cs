@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TopDownHordeShooter.Utils;
 using TopDownHordeShooter.Utils.EnemyAI;
@@ -9,43 +11,56 @@ namespace TopDownHordeShooter.Entities.Characters
     {
         
         // The amount of score the enemy will give to the player
-        public int ScoreGiven;
+        public readonly int ScoreGiven;
 
         // FSM for actions
         protected Fsm Fsm;
         
         // Sensor for AI
-        protected float VisionRange;
+        private readonly float _visionRange;
 
         // Store player position for quicker and simpler AI calculations. Should be OK on a PvE game
         public Vector2 PlayerPosition { get; set; }
-        public bool PlayerInRange;
+        protected bool PlayerInRange;
 
         // Enemy direction facing towards player, calculated on the spot but needs to be normalized before use
 
-        public Enemy(EnemyData data)
+        protected Enemy(EnemyData data)
         {
             Health = data.Health;
             BaseDamage = data.Damage;
             MoveSpeed = data.MoveSpeed;
-            Active = true;
-            VisionRange = data.VisionRange;
+            _visionRange = data.VisionRange;
             ScoreGiven = data.ScoreGiven;
             PlayerInRange = false;
             CanTakeDamage = true;
+            Animations = new List<Animation>();
+            CharacterAnimation = new Animation();
+            
+            ReceiveDamageTimeSpan = TimeSpan.FromMilliseconds(500);
+            LastDamageReceived = TimeSpan.Zero;
+            
+            Active = true;
         }
         
-        public override void Initialize(Texture2D charTexture, Vector2 position)
+        public override void Initialize(List<Texture2D> animationSpriteSheets, Vector2 position)
         {
-            CharacterTexture = charTexture;
             Position = position;
+            foreach (var spriteSheet in animationSpriteSheets)
+            {
+                var tempAnimation = new Animation();
+                tempAnimation.Initialize(spriteSheet, Position, 64, 64, 7, 30, Color.White, 1, true);
+                
+                Animations.Add(tempAnimation);
+            }
+            CharacterTexture = animationSpriteSheets[0]; // Irrelevant, not in use
+            CharacterAnimation = Animations[0];
 
-            Hitbox = new Hitbox(Position, Width, Height, ColliderType.Enemy);
-            
-            
+            Hitbox = new Hitbox(Position, CharacterAnimation.FrameWidth, CharacterAnimation.FrameHeight, ColliderType.Enemy);
+
             InitializeFsm();
         }
-
+        
         protected abstract void InitializeFsm();
         
         public override void Update(GameTime gameTime)
@@ -55,6 +70,9 @@ namespace TopDownHordeShooter.Entities.Characters
             // Handle behaviour
             Sense();
             Think(gameTime);
+            
+            CharacterAnimation.Position = Position;
+            CharacterAnimation.Update(gameTime);
             
             // Update hitbox
             Hitbox.Position = Position;
@@ -66,30 +84,18 @@ namespace TopDownHordeShooter.Entities.Characters
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (!Active) return;
-            
-            //hitbox.Draw(spriteBatch);
-            Vector2 drawPosition;
-            drawPosition.X = Position.X - Width/2;
-            drawPosition.Y = Position.Y - Height/2;
-            
-            Hitbox.Draw(spriteBatch);
-            
-            spriteBatch.Draw(CharacterTexture, Position, null, Color.White, 0f, Vector2.Zero,
-                1f, !CharacterFacingLeft ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+            CharacterAnimation.Draw(spriteBatch);
         }
 
         
         // Draw imaginary aggro box around enemy and check if player is inside
         private bool CheckPlayerInRange() 
-            => PlayerPosition.X >= Position.X - VisionRange 
-               && PlayerPosition.X <= Position.X + VisionRange 
-               && PlayerPosition.Y <= Position.Y + VisionRange 
-               && PlayerPosition.Y >= Position.Y - VisionRange;
+            => PlayerPosition.X >= Position.X - _visionRange 
+               && PlayerPosition.X <= Position.X + _visionRange 
+               && PlayerPosition.Y <= Position.Y + _visionRange 
+               && PlayerPosition.Y >= Position.Y - _visionRange;
 
-        private void Sense()
-        {
-            PlayerInRange = CheckPlayerInRange(); 
-        }
+        private void Sense() => PlayerInRange = CheckPlayerInRange();
         
         private void Think(GameTime gameTime) => Fsm.Update(gameTime); 
     }
