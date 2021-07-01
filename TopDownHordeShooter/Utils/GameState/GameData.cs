@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TopDownHordeShooter.Utils
+namespace TopDownHordeShooter.Utils.GameState
 {
     public class GameData
     {

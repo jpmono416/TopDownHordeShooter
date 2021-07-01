@@ -7,16 +7,17 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using TopDownHordeShooter.Entities.Characters;
 using TopDownHordeShooter.Entities.Combat.Weapons;
+using TopDownHordeShooter.Entities.Misc;
 using TopDownHordeShooter.Entities.Pickups;
 using TopDownHordeShooter.Utils.Events;
 using TopDownHordeShooter.Utils.UI;
 
-namespace TopDownHordeShooter.Utils.States
+namespace TopDownHordeShooter.Utils.GameState.States
 {
     public class GameState : BaseState
     {
         private ContentManager Content;
-
+        private ScoreManager _scoreManager;
         private SpriteBatch _spriteBatch;
         
         // Background
@@ -56,15 +57,16 @@ namespace TopDownHordeShooter.Utils.States
         private MouseState CurrentMouseState { get; set; }
         
         // UI text
-        private Text uiText;
+        private Text _uiText;
         
         // Game data
-        private GameData _gameData;
+        private readonly GameData _gameData;
 
         // Enemy waves manager
-        public GameLoop GameLoop;
+        private readonly WaveManager _waveManager;
 
         private bool GamePaused;
+        private bool _gameFinished;
         
         public GameState(HordeShooterGame game, GraphicsDevice graphicsDevice, ContentManager content) 
             : base(game, graphicsDevice, content)
@@ -82,16 +84,16 @@ namespace TopDownHordeShooter.Utils.States
             
             LoadContent();
 
-            // Input
-            _weaponChanged = false;
-
             // Timespans
             _changeWeaponTimespan = TimeSpan.FromSeconds(2);
             _previousWeaponChangeTime = TimeSpan.Zero;
 
             Content.RootDirectory = "Content";
-            GameLoop = new GameLoop();
+            _waveManager = new WaveManager();
+            _scoreManager = ScoreManager.Load();
             
+            _gameFinished = _weaponChanged = GamePaused = false;
+
         }
 
         private void LoadContent()
@@ -99,7 +101,7 @@ namespace TopDownHordeShooter.Utils.States
             _backgroundTexture = Content.Load<Texture2D>("Graphics\\stone_floor");
             
             // Text
-            uiText = new Text (Content);
+            _uiText = new Text (Content);
             
             // Player
             var playerSpawnPosition = Vector2.Zero;
@@ -178,11 +180,11 @@ namespace TopDownHordeShooter.Utils.States
             CalculateCollisions(gameTime);
             
             // Update game loop
-            if (_enemies.Count == 0) GameLoop.WaveCompleted = true;
-            GameLoop.Update(gameTime);
-            if (GameLoop.TimerOver)
+            if (_enemies.Count == 0) _waveManager.WaveCompleted = true;
+            _waveManager.Update(gameTime);
+            if (_waveManager.TimerOver)
             {
-                GameLoop.TimerOver = false;
+                _waveManager.TimerOver = false;
                 SpawnEnemies();
             }
         }
@@ -227,19 +229,19 @@ namespace TopDownHordeShooter.Utils.States
         
         private void DrawUI(SpriteBatch spriteBatch)
         {
-            uiText.DrawString("Level: " + _player.Level,new Vector2(GraphicsDevice.Viewport.Width-150,20),Color.White,2,false, spriteBatch);
-            uiText.DrawString("Exp: " + _player.XPPoints + " / " + _player.NextLevelXPRequired,new Vector2(GraphicsDevice.Viewport.Width-200,50),Color.White,2,false, spriteBatch);
-            uiText.DrawString("Health: " + _player.Health,new Vector2(20,20),Color.White,2,false, spriteBatch);
-            uiText.DrawString("Rate of fire: " + ( 1000 * 60 / _player.RateOfFire.Milliseconds) + " bpm",new Vector2(20,50),Color.White,2,false, spriteBatch);
-            uiText.DrawString("Damage: " + _player.BaseDamage,new Vector2(20,80),Color.White,2,false, spriteBatch);
-            uiText.DrawString("Ammo: " + _player.CurrentWeapon.CurrentBulletsInMag + " / " + _player.CurrentWeapon.RemainingBullets,new Vector2(20,110),Color.White,2,false, spriteBatch);
-            uiText.DrawString("Current wave: " + GameLoop.CurrentWave,new Vector2(20,GraphicsDevice.Viewport.Height - 40),Color.Crimson,2,false, spriteBatch);
+            _uiText.DrawString("Level: " + _player.Level,new Vector2(GraphicsDevice.Viewport.Width-150,20),Color.White,2,false, spriteBatch);
+            _uiText.DrawString("Exp: " + _player.XPPoints + " / " + _player.NextLevelXPRequired,new Vector2(GraphicsDevice.Viewport.Width-200,50),Color.White,2,false, spriteBatch);
+            _uiText.DrawString("Health: " + _player.Health,new Vector2(20,20),Color.White,2,false, spriteBatch);
+            _uiText.DrawString("Rate of fire: " + ( 1000 * 60 / _player.RateOfFire.Milliseconds) + " bpm",new Vector2(20,50),Color.White,2,false, spriteBatch);
+            _uiText.DrawString("Damage: " + _player.BaseDamage,new Vector2(20,80),Color.White,2,false, spriteBatch);
+            _uiText.DrawString("Ammo: " + _player.CurrentWeapon.CurrentBulletsInMag + " / " + _player.CurrentWeapon.RemainingBullets,new Vector2(20,110),Color.White,2,false, spriteBatch);
+            _uiText.DrawString("Current wave: " + _waveManager.CurrentWave,new Vector2(20,GraphicsDevice.Viewport.Height - 40),Color.Crimson,2,false, spriteBatch);
 
             // Display health counters
             foreach (var enemy in _enemies)
             {
-                uiText.DrawString(enemy.Health.ToString(),new Vector2(enemy.Position.X + enemy.CharacterAnimation.FrameWidth / 2, enemy.Position.Y - enemy.CharacterAnimation.FrameHeight / 2),Color.Firebrick,1,false, spriteBatch);
-                uiText.DrawString(enemy.Position.ToString(),new Vector2(enemy.Position.X + enemy.CharacterAnimation.FrameWidth / 2, enemy.Position.Y + enemy.CharacterAnimation.FrameHeight / 2),Color.Green,1,false, spriteBatch);
+                _uiText.DrawString(enemy.Health.ToString(),new Vector2(enemy.Position.X + enemy.CharacterAnimation.FrameWidth / 2, enemy.Position.Y - enemy.CharacterAnimation.FrameHeight / 2),Color.Firebrick,1,false, spriteBatch);
+                _uiText.DrawString(enemy.Position.ToString(),new Vector2(enemy.Position.X + enemy.CharacterAnimation.FrameWidth / 2, enemy.Position.Y + enemy.CharacterAnimation.FrameHeight / 2),Color.Green,1,false, spriteBatch);
             }
         }
         
@@ -276,6 +278,9 @@ namespace TopDownHordeShooter.Utils.States
                     _player.Colliding = true;
                     _player.CollidingWith = ColliderType.Enemy;
                     _player.TakeDamage(enemy.BaseDamage, enemy.Hitbox.ColliderType, gameTime);
+                    
+                    // If player is dead terminate game
+                    if(!_player.Active) EndGame();
                 }
 
                 // Calculate projectile collisions
@@ -309,6 +314,19 @@ namespace TopDownHordeShooter.Utils.States
             _previousWeaponChangeTime = gameTime.TotalGameTime;
             _weaponChanged = false;
         }
+
+        private void EndGame()
+        {
+            // Prevent Update being executed multiple times and duplicating scores
+            if (_gameFinished) return;
+            
+            _gameFinished = true;
+            _scoreManager.Add(new Score{Value = _waveManager.CurrentWave});
+            ScoreManager.Save(_scoreManager);
+            
+            _game.ChangeState(new MenuState(_game, _graphicsDevice, _content));
+        }
+        
         #endregion
         #region Input
         private void CheckInput(GameTime gameTime)

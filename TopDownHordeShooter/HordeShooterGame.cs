@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using TopDownHordeShooter.Utils.States;
+using TopDownHordeShooter.Utils.GameState.States;
 
 namespace TopDownHordeShooter
 {

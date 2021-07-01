@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TopDownHordeShooter.Utils;
 using TopDownHordeShooter.Utils.EnemyAI;
+using TopDownHordeShooter.Utils.GameState;
 
 namespace TopDownHordeShooter.Entities.Characters
 {

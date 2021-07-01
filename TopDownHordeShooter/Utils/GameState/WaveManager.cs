@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace TopDownHordeShooter.Utils
+namespace TopDownHordeShooter.Utils.GameState
 {
-    public class GameLoop
+    public class WaveManager
     {
         public int CurrentWave;
         private readonly TimeSpan DelayBetweenWaves;
@@ -15,7 +15,7 @@ namespace TopDownHordeShooter.Utils
         // True when new wave can begin after delay
         public bool TimerOver;
 
-        public GameLoop()
+        public WaveManager()
         {
             WaveCompleted = false;
             CurrentWave = 1;

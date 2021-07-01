@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using TopDownHordeShooter.Entities.Combat.Weapons;
 using TopDownHordeShooter.Utils;
 using TopDownHordeShooter.Utils.Events;
+using TopDownHordeShooter.Utils.GameState;
 
 namespace TopDownHordeShooter.Entities.Characters
 {

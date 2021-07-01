@@ -1,5 +1,6 @@
 ﻿using TopDownHordeShooter.Utils;
 using TopDownHordeShooter.Utils.EnemyAI;
+using TopDownHordeShooter.Utils.GameState;
 
 namespace TopDownHordeShooter.Entities.Characters
 {
