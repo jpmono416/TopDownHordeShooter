@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using TopDownHordeShooter.Utils;
 using TopDownHordeShooter.Utils.GameState.States;
 
 namespace TopDownHordeShooter
@@ -15,11 +16,9 @@ namespace TopDownHordeShooter
         // Game states
         private BaseState _currentState;
         private BaseState _nextState;
-
-        public void ChangeState(BaseState state)
-        {
-            _nextState = state;
-        }
+        public bool LostGame;
+        public int DifficultyLevel;
+        public void ChangeState(BaseState state) => _nextState = state; 
         
         // Screen dimensions
         private const int ScreenWidth = 1920;
@@ -35,6 +34,7 @@ namespace TopDownHordeShooter
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            LostGame = false;
         }
         #endregion
         
@@ -81,7 +81,7 @@ namespace TopDownHordeShooter
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            //GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // Game state
             _currentState.Draw(gameTime, SpriteBatch);
@@ -93,13 +93,22 @@ namespace TopDownHordeShooter
     }
     
     #region Main
-    static class Program
+
+    internal static class Program
     {
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             using var game = new HordeShooterGame();
-            game.Run();
+            try
+            {
+                game.Run();
+            }
+            catch (Exception e)
+            {
+               FileLoader.AppendExtensionToLogFile(e); 
+            }
+            
         }
     }
     #endregion

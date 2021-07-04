@@ -7,12 +7,11 @@ namespace TopDownHordeShooter.Entities.Pickups
     public class HealthPickup : BasePickup
     {
 
-        public HealthPickup()
+        public HealthPickup(int spawnTimeSeconds)
         {
             Width = 16;
             SpriteSheetCoordinates = new Rectangle(0, 0, Width, Height);  
-            //SpawnTime = TimeSpan.FromMinutes(2);
-            SpawnTime = TimeSpan.FromSeconds(20);
+            SpawnTimeSpan = TimeSpan.FromSeconds(spawnTimeSeconds + 30);
         }
 
         protected override void ApplyEffect(Player player, GameTime gameTime)

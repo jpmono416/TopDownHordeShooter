@@ -11,30 +11,30 @@ namespace TopDownHordeShooter.Entities.Pickups
     public abstract class BasePickup
     {
         //Texture
-        public Texture2D SpriteSheet;
+        private Texture2D _spriteSheet;
         protected Rectangle SpriteSheetCoordinates;
 
-        public Vector2 Position;
+        private Vector2 _position;
         public bool Active;
         
         
         public Hitbox Hitbox;
         
         // Respawn timer
-        public TimeSpan SpawnTime;
+        protected TimeSpan SpawnTimeSpan;
         public TimeSpan LastGone;
 
-        public int Width;
-        public const int Height = 12; // They all have the same height
+        protected int Width;
+        protected const int Height = 12; // They all have the same height
 
         public PickupController PickupController;
 
         private void Initialize(Texture2D spritesheet)
         {
-            SpriteSheet = spritesheet;
-            Position = GeneratePickupPosition();
+            _spriteSheet = spritesheet;
+            _position = GeneratePickupPosition();
             Active = false;
-            Hitbox = new Hitbox(Position, Width, Height, ColliderType.Pickup);
+            Hitbox = new Hitbox(_position, Width, Height, ColliderType.Pickup);
             
             PickupController = new PickupController();
             AddController(PickupController);
@@ -43,30 +43,30 @@ namespace TopDownHordeShooter.Entities.Pickups
         public void Update(GameTime gameTime)
         {
             // Check respawn time
-            if (!Active && gameTime.TotalGameTime - LastGone > SpawnTime)
+            if (!Active && gameTime.TotalGameTime - LastGone > SpawnTimeSpan)
                 SpawnPickup();
-            Hitbox.Position = Position;
+            Hitbox.Position = _position;
         }
         
         public void Draw(SpriteBatch spriteBatch)
         {
             if (!Active) return;
             
-            spriteBatch.Draw(SpriteSheet, Position, SpriteSheetCoordinates, 
+            spriteBatch.Draw(_spriteSheet, _position, SpriteSheetCoordinates, 
                 Color.White, 0f, Vector2.Zero, 2f, 
                 SpriteEffects.None, 0f);
         }
 
         // Returns all initialized pickup types
-        public static List<BasePickup> InitAllPickups(Texture2D pickupsSpritesheet)
+        public static List<BasePickup> InitAllPickups(Texture2D pickupsSpritesheet, int basePickupSpawnTime)
         {
-            var aP = new AmmoPickup();
+            var aP = new AmmoPickup(basePickupSpawnTime);
             aP.Initialize(pickupsSpritesheet);
-            var hP = new HealthPickup();
+            var hP = new HealthPickup(basePickupSpawnTime);
             hP.Initialize(pickupsSpritesheet);
-            var fP = new FridgePickup();
+            var fP = new FridgePickup(basePickupSpawnTime);
             fP.Initialize(pickupsSpritesheet);
-            var sP = new SurprisePickup();
+            var sP = new SurprisePickup(basePickupSpawnTime);
             sP.Initialize(pickupsSpritesheet);
             
             return new List<BasePickup> {aP, hP, fP, sP};
@@ -75,7 +75,7 @@ namespace TopDownHordeShooter.Entities.Pickups
         // This function "spawns" any given pickup
         private void SpawnPickup()
         {
-            Position = GeneratePickupPosition();
+            _position = GeneratePickupPosition();
             Active = true;
         }
 
@@ -90,7 +90,7 @@ namespace TopDownHordeShooter.Entities.Pickups
         private void AddController(PickupController pickupController) =>
             pickupController.Changed += OnChanged;
 
-        public void OnChanged(object sender, PickupEventArgs args)
+        private void OnChanged(object sender, PickupEventArgs args)
         {
             switch (args.EventType)
             {

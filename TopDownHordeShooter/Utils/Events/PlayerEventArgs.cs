@@ -13,19 +13,22 @@ namespace TopDownHordeShooter.Utils.Events
         MoveUp,
         MoveDown,
         NextWeapon,
-        PreviousWeapon
+        PreviousWeapon,
+        GainXp
     }
     public class PlayerEventArgs : EventArgs
     {
-        public PlayerEventType EventType;
-        public GameTime GameTime;
-        public Texture2D BulletsSpritesheet;
+        public readonly PlayerEventType EventType;
+        public readonly GameTime GameTime;
+        public readonly Texture2D BulletsSpritesheet;
+        public readonly int XpAmount;
 
-        public PlayerEventArgs(PlayerEventType eventType, GameTime gameTime, Texture2D bulletsSpritesheet)
+        public PlayerEventArgs(PlayerEventType eventType, GameTime gameTime, Texture2D bulletsSpritesheet, int xpAmount = 0)
         {
             EventType = eventType;
             GameTime = gameTime;
             BulletsSpritesheet = bulletsSpritesheet;
+            XpAmount = xpAmount;
         } 
     }
 }

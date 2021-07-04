@@ -15,17 +15,21 @@ namespace TopDownHordeShooter.Utils.EnemyAI
             
             // Set direction 
             enemy.Direction = enemy.PlayerPosition - enemy.Position;
-            enemy.Direction.Normalize();
+            enemy.Direction = Vector2.Normalize(enemy.Direction);
         }
         public override void Exit(object owner) 
         {
             if (!(owner is WalkerEnemy enemy)) return;
+
             enemy.Direction = Vector2.Zero;
         }
         public override void Execute(object owner, GameTime gameTime)
         {
-            if (!(owner is WalkerEnemy enemy)) return;
+            if (!(owner is Enemy enemy)) return;
 
+            // Change animation
+            enemy.ChangeAnimation(gameTime, enemy.Animations.Find(animation => animation.AnimationType == AnimationTypes.Movement));
+            
             // Set direction 
             enemy.Direction = enemy.PlayerPosition - enemy.Position;
             enemy.Direction = Vector2.Normalize(enemy.Direction);

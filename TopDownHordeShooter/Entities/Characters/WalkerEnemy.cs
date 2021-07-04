@@ -1,4 +1,4 @@
-﻿using TopDownHordeShooter.Utils;
+﻿using Microsoft.Xna.Framework;
 using TopDownHordeShooter.Utils.EnemyAI;
 using TopDownHordeShooter.Utils.GameState;
 
@@ -12,7 +12,6 @@ namespace TopDownHordeShooter.Entities.Characters
             
             // Create the states
             var idle = new IdleState();
-            //FleeState flee = new FleeState();
             var chase = new ChaseState();
             
             // Create the transitions between the states
@@ -27,9 +26,13 @@ namespace TopDownHordeShooter.Entities.Characters
             Fsm.Initialise("Idle");
         }
 
-        public WalkerEnemy(EnemyData data) : base(data)
+        protected override void Sense(GameTime gameTime) => PlayerInRange = CheckPlayerInRange();
+        
+
+        public WalkerEnemy(EnemyData data, DifficultyData difficulty) : base(data, difficulty)
         {
             SpeedMultiplier = 0.1f;
+            Scale = 1f;
         }
     }
 }

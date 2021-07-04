@@ -6,8 +6,8 @@ namespace TopDownHordeShooter.Utils.GameState
     public class WaveManager
     {
         public int CurrentWave;
-        private readonly TimeSpan DelayBetweenWaves;
-        private TimeSpan TimeWaveCompleted;
+        private readonly TimeSpan _delayBetweenWaves;
+        private TimeSpan _timeWaveCompleted;
         
         // True when the current wave is over
         public bool WaveCompleted;
@@ -19,7 +19,7 @@ namespace TopDownHordeShooter.Utils.GameState
         {
             WaveCompleted = false;
             CurrentWave = 1;
-            DelayBetweenWaves = TimeSpan.FromSeconds(5);
+            _delayBetweenWaves = TimeSpan.FromSeconds(5);
         }
 
         public void Update(GameTime gameTime)

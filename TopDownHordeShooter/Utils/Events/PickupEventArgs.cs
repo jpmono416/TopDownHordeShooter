@@ -13,9 +13,9 @@ namespace TopDownHordeShooter.Utils.Events
     }
     public class PickupEventArgs : EventArgs
     {
-        public PickupEventType EventType;
-        public GameTime GameTime;
-        public Player Player;
+        public readonly PickupEventType EventType;
+        public readonly GameTime GameTime;
+        public readonly Player Player;
 
         public PickupEventArgs(PickupEventType eventType, GameTime gameTime, Player player)
         {

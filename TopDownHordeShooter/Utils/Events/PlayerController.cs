@@ -2,11 +2,11 @@
 {
     public delegate void PlayerEventHandler(object sender, PlayerEventArgs args);
     
-    public class PlayerController : BaseEventController
+    public sealed class PlayerController : BaseEventController
     {
         public event PlayerEventHandler Changed;
 
-        protected virtual void OnChanged(PlayerEventArgs args)
+        private void OnChanged(PlayerEventArgs args)
         {
             Changed?.Invoke(this, args);
         }
@@ -20,5 +20,7 @@
         
         public void PreviousWeapon(PlayerEventArgs args) => OnChanged(args);
         public void Shoot(PlayerEventArgs args) => OnChanged(args);
+        
+        public void GainXp(PlayerEventArgs args) => OnChanged(args);
     }
 }

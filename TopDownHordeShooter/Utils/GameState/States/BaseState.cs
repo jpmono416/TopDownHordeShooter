@@ -8,11 +8,11 @@ namespace TopDownHordeShooter.Utils.GameState.States
     {
         #region Fields
 
-        protected ContentManager _content;
+        protected ContentManager Content;
 
-        protected GraphicsDevice _graphicsDevice;
+        protected GraphicsDevice GraphicsDevice;
 
-        protected HordeShooterGame _game;
+        protected HordeShooterGame Game;
 
         #endregion
 
@@ -24,11 +24,11 @@ namespace TopDownHordeShooter.Utils.GameState.States
 
         public BaseState(HordeShooterGame game, GraphicsDevice graphicsDevice, ContentManager content)
         {
-            _game = game;
+            Game = game;
 
-            _graphicsDevice = graphicsDevice;
+            GraphicsDevice = graphicsDevice;
 
-            _content = content;
+            Content = content;
         }
 
         public abstract void Update(GameTime gameTime);

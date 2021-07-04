@@ -12,13 +12,13 @@ namespace TopDownHordeShooter.Utils.UI
 
         private MouseState _currentMouse;
 
-        private SpriteFont _font;
+        private readonly SpriteFont _font;
 
         private bool _isHovering;
 
         private MouseState _previousMouse;
 
-        private Texture2D _texture;
+        private readonly Texture2D _texture;
 
         #endregion
 
@@ -26,9 +26,7 @@ namespace TopDownHordeShooter.Utils.UI
 
         public event EventHandler Click;
 
-        public bool Clicked { get; private set; }
-
-        public Color PenColour { get; set; }
+        private Color PenColour { get; }
 
         public Vector2 Position { get; set; }
 
@@ -55,7 +53,7 @@ namespace TopDownHordeShooter.Utils.UI
             PenColour = Color.Black;
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             var colour = Color.White;
 

@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace TopDownHordeShooter.Utils.Input
 {
-    class InputListener
+    internal class InputListener
     {
         //Keyboard event handlers
         //key is down

@@ -29,19 +29,34 @@ namespace TopDownHordeShooter.Utils
             
             return result.ToString();
         }
-        
+
+        public static void AppendExtensionToLogFile(Exception ex)
+        {
+            const string filePath = @"/Error.txt";
+            using var writer = new StreamWriter(filePath, true );
+            writer.WriteLine( "-----------------------------------------------------------------------------" );
+            writer.WriteLine( "Date : " + DateTime.Now);
+            writer.WriteLine();
+
+            while( ex != null )
+            {
+                writer.WriteLine( ex.GetType().FullName );
+                writer.WriteLine( "Message : " + ex.Message );
+                writer.WriteLine( "StackTrace : " + ex.StackTrace );
+
+                ex = ex.InnerException;
+            }
+        }
         public static List<string> ReadLinesFromTextFile(string filePath)
         {
             var lines = new List<string>();
             var fileStream = File.OpenRead(filePath);
             try
             {
-                using (var reader = new StreamReader(fileStream))
-                {
-                    var line = "";
-                    while ((line = reader.ReadLine()) != null)
-                        lines.Add(line);
-                }
+                using var reader = new StreamReader(fileStream);
+                var line = "";
+                while ((line = reader.ReadLine()) != null)
+                    lines.Add(line);
             }
             catch (Exception e)
             {
@@ -52,15 +67,16 @@ namespace TopDownHordeShooter.Utils
         }
         
         // Object to JSON
-        public static string ObjectToJSON<T>(T obj) => JsonSerializer.Serialize(obj);
+        public static string ObjectToJson<T>(T obj) => JsonSerializer.Serialize(obj);
         // Convert JSON string to any class object
-        public static object JSONToObject(string jsonBody, Type classType) => JsonSerializer.Deserialize(jsonBody, classType);
+        public static object JsonToObject(string jsonBody, Type classType) => JsonSerializer.Deserialize(jsonBody, classType);
 
     }
     
+    // Extracted from https://github.com/Oyyou/MonoGame_Tutorials/tree/master/MonoGame_Tutorials/Tutorial015
     public class ScoreManager
     {
-        private static string _fileName = "scores.xml"; // Since we don't give a path, this'll be saved in the "bin" folder
+        private const string FileName = "HighScores.xml"; // Since we don't give a path, this'll be saved in the "bin" folder
 
         public List<Score> Highscores { get; private set; }
 
@@ -91,19 +107,17 @@ namespace TopDownHordeShooter.Utils
         public static ScoreManager Load()
         {
             // If there isn't a file to load - create a new instance of "ScoreManager"
-            if (!File.Exists(_fileName))
+            if (!File.Exists(FileName))
                 return new ScoreManager();
 
             // Otherwise we load the file
 
-            using (var reader = new StreamReader(new FileStream(_fileName, FileMode.Open)))
-            {
-                var serializer = new XmlSerializer(typeof(List<Score>));
+            using var reader = new StreamReader(new FileStream(FileName, FileMode.Open));
+            var serializer = new XmlSerializer(typeof(List<Score>));
 
-                var scores = (List<Score>)serializer.Deserialize(reader);
+            var scores = (List<Score>)serializer.Deserialize(reader);
 
-                return new ScoreManager(scores);
-            }
+            return new ScoreManager(scores);
         }
 
         private void UpdateHighScores()
@@ -114,7 +128,7 @@ namespace TopDownHordeShooter.Utils
         public static void Save(ScoreManager scoreManager)
         {
             // Overrides the file if it already exists
-            using var writer = new StreamWriter(new FileStream(_fileName, FileMode.Create));
+            using var writer = new StreamWriter(new FileStream(FileName, FileMode.Create));
             var serializer = new XmlSerializer(typeof(List<Score>));
 
             serializer.Serialize(writer, scoreManager.Scores);

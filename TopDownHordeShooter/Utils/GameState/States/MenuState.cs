@@ -2,114 +2,137 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using TopDownHordeShooter.Entities.Misc;
 using TopDownHordeShooter.Utils.UI;
 
 namespace TopDownHordeShooter.Utils.GameState.States
 {
     public class MenuState : BaseState
     {
-        private List<Component> _components;
-        private int DifficultyLevel;
+        private readonly List<Button> _components;
+        private int _difficultyLevel;
 
-        private ScoreManager _scoreManager;
+        private readonly SoundEffectInstance _menuSongInstance;
+        private readonly ScoreManager _scoreManager;
         
         // UI text
-        private Text uiText;
+        private readonly Text _uiText;
         
         public MenuState(HordeShooterGame game, GraphicsDevice graphicsDevice, ContentManager content) 
             : base(game, graphicsDevice, content)
         {
-            var buttonTexture = _content.Load<Texture2D>("Graphics/Button");
-            var buttonFont = _content.Load<SpriteFont>("Fonts/Arial");
+            var buttonTexture = Content.Load<Texture2D>("Graphics/Button");
+            var font = Content.Load<SpriteFont>("Fonts/Arial");
+            var menuSong = Content.Load<SoundEffect>("Sound/MenuTrack");
+            _menuSongInstance = menuSong.CreateInstance(); 
             
-            DifficultyLevel = 0; // Easy by default
+            _difficultyLevel = 0; // Easy by default
             // Text
-            uiText = new Text (content);
+            _uiText = new Text (content);
 
             // Init score manager
             _scoreManager = ScoreManager.Load();
             
             // Create buttons 
-            var newGameButton = new Button(buttonTexture, buttonFont)
+            var newGameButton = new Button(buttonTexture, font)
             {
-                Position = new Vector2(300, 200),
+                Position = new Vector2(GraphicsDevice.Viewport.Width / 3, 200),
                 Text = "New Game",
             };
             
-            var loadGameButton = new Button(buttonTexture, buttonFont)
+            var quitGameButton = new Button(buttonTexture, font)
             {
-                Position = new Vector2(300, 250),
-                Text = "Load Game",
-            };
-
-            var quitGameButton = new Button(buttonTexture, buttonFont)
-            {
-                Position = new Vector2(300, 300),
+                Position = new Vector2(GraphicsDevice.Viewport.Width / 3, 250),
                 Text = "Quit Game",
             };
 
-            var lowDiffButton = new Button(buttonTexture, buttonFont)
+            var lowDiffButton = new Button(buttonTexture, font)
             {
-                Position = new Vector2(600, 250),
+                Position = new Vector2(GraphicsDevice.Viewport.Width / 2, 250),
                 Text = "Easy",
             };
             
-            var midDiffButton = new Button(buttonTexture, buttonFont)
+            var midDiffButton = new Button(buttonTexture, font)
             {
-                Position = new Vector2(600, 300),
+                Position = new Vector2(GraphicsDevice.Viewport.Width / 2, 300),
                 Text = "Mid",
             };
             
-            var hardDiffButton = new Button(buttonTexture, buttonFont)
+            var hardDiffButton = new Button(buttonTexture, font)
             {
-                Position = new Vector2(600, 350),
+                Position = new Vector2(GraphicsDevice.Viewport.Width / 2, 350),
                 Text = "Hard",
             };
             
             // Assign click events
-            hardDiffButton.Click += (sender, args) => DifficultyLevel = 2;
-            midDiffButton.Click += (sender, args) => DifficultyLevel = 1;
-            lowDiffButton.Click += (sender, args) => DifficultyLevel = 0;
+            hardDiffButton.Click += (sender, args) => _difficultyLevel = 2;
+            midDiffButton.Click += (sender, args) => _difficultyLevel = 1;
+            lowDiffButton.Click += (sender, args) => _difficultyLevel = 0;
             newGameButton.Click += NewGameButton_Click;
-            loadGameButton.Click += LoadGameButton_Click;
             quitGameButton.Click += QuitGameButton_Click;
             
-            _components = new List<Component>()
+            _components = new List<Button>
             {
                 newGameButton,
-                loadGameButton,
                 quitGameButton,
                 lowDiffButton,
                 midDiffButton,
                 hardDiffButton
             };
+
+            _menuSongInstance.Play();
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-
+            GraphicsDevice.Clear(Color.Gray);
             foreach (var component in _components)
-                component.Draw(gameTime, spriteBatch);
+                component.Draw(spriteBatch);
 
-            uiText.DrawString("High scores:\n" + string.Join("\n", _scoreManager.Highscores.Select(c => c.Value)),
+            _uiText.DrawString("High scores:\n" + string.Join("\n", _scoreManager.Highscores.Select(c => c.Value)),
                 new Vector2(30, 40), Color.White, 1, false, spriteBatch);
+
+            string diffText;
+            switch (_difficultyLevel)
+            {
+                case 0:
+                    diffText = "Easy";
+                    break;
+                case 1:
+                    diffText = "Medium";
+                    break;
+                case 2:
+                    diffText = "Hard";
+                    break;
+                default:
+                    diffText = "N/A";
+                    break;
+            }
+            _uiText.DrawString("Difficulty level:" + diffText,
+                new Vector2(_components[2].Position.X, _components[2].Position.Y - 35), Color.White, 1, false, spriteBatch);
+            
+            if(Game.LostGame)
+                _uiText.DrawString("Game Lost. New game?", new Vector2(GraphicsDevice.Viewport.Width / 2, 40), Color.DarkRed, 1, false, spriteBatch);
+            ShowInstructions(spriteBatch);
             
             spriteBatch.End();
         }
 
-        private void LoadGameButton_Click(object sender, EventArgs e)
+        private void ShowInstructions(SpriteBatch spriteBatch)
         {
-            Console.WriteLine("Load Game");
+            const string instructions = "Instructions: WASD to move, E/Q to change weapons, which unlock as you level up.";
+            _uiText.DrawString(instructions, new Vector2(GraphicsDevice.Viewport.Width / 3, GraphicsDevice.Viewport.Height / 2 + 100), Color.White, 1.5f, false, spriteBatch);
         }
-
         private void NewGameButton_Click(object sender, EventArgs e)
         {
-            _game.ChangeState(new GameState(_game, _graphicsDevice, _content));
-        }
+            Game.LostGame = false;
+            Game.DifficultyLevel = _difficultyLevel;
+            _menuSongInstance.Stop();
+            Game.ChangeState(new GameState(Game, GraphicsDevice, Content));
+        } 
 
         public override void PostUpdate(GameTime gameTime)
         {
@@ -122,9 +145,6 @@ namespace TopDownHordeShooter.Utils.GameState.States
                 component.Update(gameTime);
         }
 
-        private void QuitGameButton_Click(object sender, EventArgs e)
-        {
-            _game.Exit();
-        }
+        private void QuitGameButton_Click(object sender, EventArgs e) => Game.Exit(); 
     }
 }

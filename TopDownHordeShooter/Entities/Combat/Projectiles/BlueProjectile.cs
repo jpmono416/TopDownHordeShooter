@@ -8,9 +8,10 @@ namespace TopDownHordeShooter.Entities.Combat.Projectiles
     {
         public BlueProjectile(Texture2D spritesheet)
         {
+            ProjectileSpeed = 15f;
             SpriteSheet = spritesheet;
             ProjectileAnimation = new Animation();
-            ProjectileAnimation.Initialize(SpriteSheet, new Vector2(11f, 5), 50, 80, 4, 30, Color.White, 0.5f, true);
+            ProjectileAnimation.Initialize(SpriteSheet, new Vector2(10f, 27f), 40, 30, 5, AnimationTypes.Projectile, scale: 0.6f);
             Damage = 20;
         }
     }

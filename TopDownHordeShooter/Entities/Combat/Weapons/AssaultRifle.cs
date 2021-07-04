@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using TopDownHordeShooter.Entities.Combat.Projectiles;
 
@@ -12,7 +13,11 @@ namespace TopDownHordeShooter.Entities.Combat.Weapons
             SpriteSheetCoordinates = new Rectangle(109, 7, 31, 13);
             MaxBulletsPerMag = 30;
             CurrentBulletsInMag = MaxBulletsPerMag;
-            RemainingBullets = MaxBulletsPerMag * 5;
+            RemainingBullets = MaxBulletsPerMag * 15;
+            LevelToUnlock = 2;
+            RateOfFireOffset = 1f;
+            DamageOffset = 10;
+            ProjectileDuration = TimeSpan.FromSeconds(1.5);
         } 
     }
 }

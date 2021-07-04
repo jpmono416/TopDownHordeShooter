@@ -14,7 +14,7 @@ namespace TopDownHordeShooter.Utils.EnemyAI
             get;
             set;
         } 
-        private List<Transition> _mTransitions = new List<Transition>();
+        private readonly List<Transition> _mTransitions = new List<Transition>();
         public List<Transition> Transitions
         {
             get { return _mTransitions; }

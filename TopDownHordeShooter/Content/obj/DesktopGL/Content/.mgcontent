@@ -5,21 +5,47 @@
   <Config />
   <SourceFiles>
     <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Fonts/File.spritefont</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/BlueProjectilesAnimation.png</File>
     <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Button.png</File>
-    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Character-2.png</File>
-    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Character-L.png</File>
-    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Character-R.png</File>
     <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Pickups.png</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Player_death.png</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Player_hurt.png</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Player_idle.png</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Player_run.png</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/RedProjectilesAnimation.png</File>
     <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/shader.fx</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/ShooterEnemy_hurt.png</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/ShooterEnemy_idle.png</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/ShooterEnemy_kill.png</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/ShooterEnemy_run.png</File>
     <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Shots.png</File>
     <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/stone_floor.png</File>
     <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Weapons.png</File>
     <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Zombie-Damage-Animation.png</File>
     <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Zombie-Dying-Animation.png</File>
     <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Graphics/Zombie-Walking-Animation.png</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Sound/Flamethrower.mp3</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Sound/MenuTrack.mp3</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Sound/PistolShot.mp3</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Sound/RifleShot.mp3</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Sound/SniperShot.mp3</File>
+    <File>D:/Projects/RiderProjects/TopDownHordeShooter/TopDownHordeShooter/Content/Sound/TooCrazy.mp3</File>
   </SourceFiles>
   <DestFiles>
     <File>Fonts/Arial.spritefont</File>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using TopDownHordeShooter.Entities.Combat.Projectiles;
 
@@ -14,6 +15,10 @@ namespace TopDownHordeShooter.Entities.Combat.Weapons
             MaxBulletsPerMag = 9;
             CurrentBulletsInMag = MaxBulletsPerMag;
             RemainingBullets = MaxBulletsPerMag * 5;
+            LevelToUnlock = 1;
+            RateOfFireOffset = 2;
+            DamageOffset = 1;
+            ProjectileDuration = TimeSpan.FromSeconds(1);
         }
     }
 }

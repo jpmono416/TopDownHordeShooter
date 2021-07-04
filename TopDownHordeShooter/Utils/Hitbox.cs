@@ -67,6 +67,7 @@ namespace TopDownHordeShooter.Utils
         Projectile,
         EnemyProjectile,
         Pickup,
+        PlayerSafeZone,
         None
     }
 }

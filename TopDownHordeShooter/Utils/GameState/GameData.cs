@@ -5,10 +5,10 @@ namespace TopDownHordeShooter.Utils.GameState
     public class GameData
     {
         public PlayerStats PlayerStats{ get; set; }
-        public EnemyData EnemyData{ get; set; }
+        public List<EnemyData> EnemyData{ get; set; }
         public DifficultyData DifficultyData{ get; set; }
 
-        public GameData(PlayerStats playerStats, EnemyData enemyData, DifficultyData difficultyData)
+        public GameData(PlayerStats playerStats, List<EnemyData> enemyData, DifficultyData difficultyData)
         {
             PlayerStats = playerStats;
             EnemyData = enemyData;
@@ -18,19 +18,25 @@ namespace TopDownHordeShooter.Utils.GameState
     
     public class EnemyData
     {
+        public int Type { get; set; }
         public int Health { get; set; }
         public float MoveSpeed{ get; set; }
         public int Damage{ get; set; }
-        public int ScoreGiven{ get; set; }
-        public float VisionRange{ get; set; }
+        public int ScoreGiven { get; set; }
+        public float VisionRange { get; set; }
+        public int SpawnRate { get; set; }
+        public int MinimumWave { get; set; }
 
-        public EnemyData(int health, float moveSpeed, int damage, int scoreGiven, float visionRange)
+        public EnemyData(int health, float moveSpeed, int damage, int scoreGiven, float visionRange, int type, int spawnRate, int minimumWave)
         {
             Health = health;
             MoveSpeed = moveSpeed;
             Damage = damage;
             ScoreGiven = scoreGiven;
             VisionRange = visionRange;
+            Type = type;
+            SpawnRate = spawnRate;
+            MinimumWave = minimumWave;
         }
         public EnemyData(){}
     }
@@ -57,29 +63,20 @@ namespace TopDownHordeShooter.Utils.GameState
 
     public class DifficultyData
     {
-        public int Level{ get; set; }
+        private int Level{ get; set; }
         public float EnemyDamageMultiplier{ get; set; }
         public int BasePickupSpawnTime{ get; set; } // In seconds
         public int MinimumEnemiesPerWave{ get; set; }
+        public int EnemiesPerWaveMultiplier{ get; set; }
 
-        public DifficultyData(int level, float damageMultiplier, int pickupSpawnTime, int minEnemies)
+        public DifficultyData(int level, float damageMultiplier, int pickupSpawnTime, int minEnemies, int enemiesPerWaveMultiplier)
         {
             Level = level;
             EnemyDamageMultiplier = damageMultiplier;
             BasePickupSpawnTime = pickupSpawnTime;
             MinimumEnemiesPerWave = minEnemies;
+            EnemiesPerWaveMultiplier = enemiesPerWaveMultiplier;
         }
-
         public DifficultyData(){}
-    }
-
-    //TODO use this
-    public class HighScores
-    {
-        public List<int> Scores { get; set; }
-        public void SortList() => Scores.Sort();
-        
-        public HighScores(List<int> scores) => Scores = scores;
-        public HighScores(){}
     }
 }

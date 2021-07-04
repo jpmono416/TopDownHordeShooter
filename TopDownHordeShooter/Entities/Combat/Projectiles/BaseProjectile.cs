@@ -7,11 +7,11 @@ namespace TopDownHordeShooter.Entities.Combat.Projectiles
 {
     public class BaseProjectile
     {
-        public Texture2D SpriteSheet;
-        public Animation ProjectileAnimation;
-        public Vector2 Position;
-        public Vector2 Direction;
-        private const float ProjectileSpeed = 15.0f;
+        protected Texture2D SpriteSheet;
+        protected Animation ProjectileAnimation;
+        private Vector2 _position;
+        private Vector2 _direction;
+        protected float ProjectileSpeed;
 
         public int Damage;
         
@@ -19,20 +19,20 @@ namespace TopDownHordeShooter.Entities.Combat.Projectiles
         public Hitbox Hitbox;
 
         // Time when the projectile is created
-        public TimeSpan SpawnTime; 
-        protected TimeSpan ProjectileDuration;
+        public TimeSpan SpawnTime;
+        private TimeSpan _projectileDuration;
 
 
         private int Width => ProjectileAnimation.FrameWidth;
         private int Height => ProjectileAnimation.FrameHeight;
 
-        public void Initialize(Vector2 position, Vector2 direction)
+        public void Initialize(Vector2 position, Vector2 direction, TimeSpan duration)
         {
-            Direction = direction;
-            Position = position;
+            _direction = direction;
+            _position = position;
             Active = true;
-            Hitbox = new Hitbox(Position, Width, Height, ColliderType.Projectile);
-            ProjectileDuration = TimeSpan.FromSeconds(1);
+            Hitbox = new Hitbox(_position, Width, Height, ColliderType.EnemyProjectile);
+            _projectileDuration = duration;
         }
         
         public void Update(GameTime gameTime)
@@ -40,14 +40,15 @@ namespace TopDownHordeShooter.Entities.Combat.Projectiles
             if (!Active) return;
             
             // Position
-            Position += ProjectileSpeed * Direction;
-            Hitbox.Position = Position;
+            _position += ProjectileSpeed * _direction;
+            Hitbox.Position = _position;
             
             // Run animation
-            ProjectileAnimation.Position = Position;
+            ProjectileAnimation.FacingLeft = _direction.X < 0;
+            ProjectileAnimation.Position = _position;
             ProjectileAnimation.Update(gameTime);
             
-            if (gameTime.TotalGameTime - SpawnTime >= ProjectileDuration) Active = false;
+            if (gameTime.TotalGameTime - SpawnTime >= _projectileDuration) Active = false;
         }
         
         public void Draw(SpriteBatch spriteBatch)

@@ -6,13 +6,11 @@ namespace TopDownHordeShooter.Entities.Pickups
 {
     public class AmmoPickup : BasePickup
     {
-        public AmmoPickup()
+        public AmmoPickup(int spawnTimeSeconds)
         {
             Width = 23;
             SpriteSheetCoordinates = new Rectangle(32, 0, Width, Height);
-            
-            //SpawnTime = TimeSpan.FromMinutes(2);
-            SpawnTime = TimeSpan.FromSeconds(40);
+            SpawnTimeSpan = TimeSpan.FromSeconds(spawnTimeSeconds + 20);
         }
 
         protected override void ApplyEffect(Player player, GameTime gameTime)

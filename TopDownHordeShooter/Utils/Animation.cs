@@ -6,59 +6,64 @@ namespace TopDownHordeShooter.Utils
     public class Animation
     {
         // The image representing the collection of images used for animation
-        Texture2D _spriteStrip;
+        private Texture2D _spriteStrip;
         // The scale used to display the sprite strip
-        float _scale;
+        private float _scale;
         // The time since we last updated the frame
-        int _elapsedTime;
+        private int _elapsedTime;
         // The time we display a frame until the next one
-        int _frameTime;
+        private int _frameTime;
         // The number of frames that the animation contains
-        int _frameCount;
+        private int _frameCount;
         // The index of the current frame we are displaying
-        int _currentFrame;
+        private int _currentFrame;
         // The color of the frame we will be displaying
-        Color _color;
+        private Color _color;
         // The area of the image strip we want to display
-        Rectangle _sourceRect = new Rectangle();
+        private Rectangle _sourceRect;
         // The area where we want to display the image strip in the game
-        Rectangle _destinationRect = new Rectangle();
+        private Rectangle _destinationRect;
         // Width of a given frame
         public int FrameWidth;
         // Height of a given frame
         public int FrameHeight;
         // The state of the Animation
-        public bool Active;
+        private bool _active;
         // Determines if the animation will keep playing or deactivate after one run
-        public bool Looping;
-       
+        private bool _looping;
+        public bool FacingLeft;
+        
+        public AnimationTypes AnimationType;
         // Width of a given frame
         public Vector2 Position;
         
-        public void Initialize(Texture2D texture, Vector2 position, int frameWidth, int frameHeight, int
-            frameCount, int frametime, Color color, float scale, bool looping)
+        public void Initialize(Texture2D spriteSheet, Vector2 position, int frameWidth, int frameHeight, int
+            frameCount, AnimationTypes animationType, bool looping = true, float scale = 1f, int frameTime = 30)
         {
             // Keep a local copy of the values passed in
-            this._color = color;
-            this.FrameWidth = frameWidth;
-            this.FrameHeight = frameHeight;
-            this._frameCount = frameCount;
-            this._frameTime = frametime;
-            this._scale = scale;
-            Looping = looping;
+            _color = Color.White;
+            FrameWidth = frameWidth;
+            FrameHeight = frameHeight;
+            _frameCount = frameCount;
+            _frameTime = frameTime;
+            _scale = scale;
+            _looping = looping;
             Position = position;
-            _spriteStrip = texture;
+            _spriteStrip = spriteSheet;
+            AnimationType = animationType;
+            
             // Set the time to zero
             _elapsedTime = 0;
             _currentFrame = 0;
+            
             // Set the Animation to active by default
-            Active = true;
+            _active = true;
         }
         
         public void Update(GameTime gameTime)
         {
             // Do not update the game if we are not active
-            if (!Active) return;
+            if (!_active) return;
             // Update the elapsed time
             _elapsedTime += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
             // If the elapsed time is larger than the frame time
@@ -72,21 +77,19 @@ namespace TopDownHordeShooter.Utils
                 {
                     _currentFrame = 0;
                     // If we are not looping deactivate the animation
-                    if (!Looping)
-                        Active = false;
+                    if (!_looping)
+                        _active = false;
                 }
                 // Reset the elapsed time to zero
                 _elapsedTime = 0;
             }
             // Grab the correct frame in the image strip by multiplying the currentFrame index by the Frame width
-                _sourceRect = new Rectangle(_currentFrame * FrameWidth, 0, FrameWidth, FrameHeight);
+                _sourceRect = new Rectangle(_currentFrame * FrameWidth, 0
+                    , FrameWidth, FrameHeight);
 
             // Grab the correct frame in the image strip by multiplying the currentFrame index by the frame width
                 
             _destinationRect = new Rectangle((int)Position.X, (int)Position.Y, (int)(FrameWidth * _scale), (int)(FrameHeight * _scale));
-            
-            //_destinationRect = new Rectangle((int)Position.X - (int)(FrameWidth * _scale) / 2, (int)Position.Y
-                    //- (int)(FrameHeight * _scale) / 2, (int)(FrameWidth * _scale), (int)(FrameHeight * _scale));
         }
 
         
@@ -94,8 +97,19 @@ namespace TopDownHordeShooter.Utils
         public void Draw(SpriteBatch spriteBatch)
         {
             // Only draw the animation when we are active
-            if (!Active) return;
-            spriteBatch.Draw(_spriteStrip, _destinationRect, _sourceRect, _color);
+            if (!_active) return;
+            spriteBatch.Draw(_spriteStrip, _destinationRect, _sourceRect, _color, 0f,
+                Vector2.Zero,  FacingLeft ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 1);
         }
+    }
+
+    public enum AnimationTypes
+    {
+        Idle,
+        Movement,
+        TakingDamage,
+        Death,
+        Projectile,
+        NoAnimation
     }
 }

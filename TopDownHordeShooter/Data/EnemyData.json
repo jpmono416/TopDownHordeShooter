@@ -1,1 +1,4 @@
-﻿{"Health":100,"MoveSpeed":10,"Damage":15,"ScoreGiven":20,"VisionRange":400}
+﻿[
+  {"Type": 1, "Health":150,"MoveSpeed":10,"Damage":15,"ScoreGiven":20,"VisionRange":400, "SpawnRate":30, "MinimumWave":3 },
+  {"Type": 0, "Health":100,"MoveSpeed":10,"Damage":15,"ScoreGiven":20,"VisionRange":400, "SpawnRate":70, "MinimumWave":1}
+]

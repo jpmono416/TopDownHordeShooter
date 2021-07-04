@@ -5,8 +5,8 @@ namespace TopDownHordeShooter.Utils.EnemyAI
 {
     public class Fsm
     {
-        private object _mOwner;
-        private List<State> _mStates;
+        private readonly object _mOwner;
+        private readonly List<State> _mStates;
         private State _mCurrentState;
         public Fsm()
             : this(null)

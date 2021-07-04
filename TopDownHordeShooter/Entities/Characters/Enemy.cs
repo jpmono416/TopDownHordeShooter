@@ -24,40 +24,60 @@ namespace TopDownHordeShooter.Entities.Characters
         public Vector2 PlayerPosition { get; set; }
         protected bool PlayerInRange;
 
+        public int SpawnRate;
+        public int MinimumWave;
+
         // Enemy direction facing towards player, calculated on the spot but needs to be normalized before use
 
-        protected Enemy(EnemyData data)
+        protected Enemy(EnemyData data, DifficultyData difficulty)
         {
             Health = data.Health;
-            BaseDamage = data.Damage;
+            BaseDamage = (int) (data.Damage * difficulty.EnemyDamageMultiplier);
             MoveSpeed = data.MoveSpeed;
             _visionRange = data.VisionRange;
             ScoreGiven = data.ScoreGiven;
+            SpawnRate = data.SpawnRate;
+            MinimumWave = data.MinimumWave;
             PlayerInRange = false;
             CanTakeDamage = true;
-            Animations = new List<Animation>();
             CharacterAnimation = new Animation();
             
-            ReceiveDamageTimeSpan = TimeSpan.FromMilliseconds(500);
+            ReceiveDamageTimeSpan = TimeSpan.Zero;
+            ChangeAnimationTimeSpan = TimeSpan.FromSeconds(1);
+            LastAnimationChangedTime = TimeSpan.Zero;
+            
             LastDamageReceived = TimeSpan.Zero;
             
             Active = true;
         }
         
-        public override void Initialize(List<Texture2D> animationSpriteSheets, Vector2 position)
+        public override void Initialize(List<Texture2D> animationSpriteSheets, Vector2 position, int widthHeight)
         {
             Position = position;
-            foreach (var spriteSheet in animationSpriteSheets)
-            {
-                var tempAnimation = new Animation();
-                tempAnimation.Initialize(spriteSheet, Position, 64, 64, 7, 30, Color.White, 1, true);
-                
-                Animations.Add(tempAnimation);
-            }
-            CharacterTexture = animationSpriteSheets[0]; // Irrelevant, not in use
+            var tempIdleAnimation = new Animation();
+            var tempWalkAnimation = new Animation();
+            var tempHurtAnimation = new Animation();
+            var tempDeathAnimation = new Animation();
+
+            tempIdleAnimation.Initialize(animationSpriteSheets[0], Position, widthHeight, widthHeight,
+                animationSpriteSheets[0].Width / widthHeight, AnimationTypes.Idle, scale: Scale);
+            
+            tempWalkAnimation.Initialize(animationSpriteSheets[1], Position, widthHeight, widthHeight,
+                animationSpriteSheets[1].Width / widthHeight, AnimationTypes.Movement, scale: Scale);
+            
+            tempHurtAnimation.Initialize(animationSpriteSheets[2], Position, widthHeight, widthHeight,
+                animationSpriteSheets[2].Width / widthHeight, AnimationTypes.TakingDamage, scale: Scale);
+            
+            tempDeathAnimation.Initialize(animationSpriteSheets[3], Position, widthHeight, widthHeight
+                , animationSpriteSheets[3].Width / widthHeight, AnimationTypes.Death, scale: Scale);
+
+
+            Animations = new List<Animation>
+                {tempIdleAnimation, tempWalkAnimation, tempHurtAnimation, tempDeathAnimation};
+
             CharacterAnimation = Animations[0];
 
-            Hitbox = new Hitbox(Position, CharacterAnimation.FrameWidth, CharacterAnimation.FrameHeight, ColliderType.Enemy);
+            Hitbox = new Hitbox(Position, CharacterAnimation.FrameWidth * Scale, CharacterAnimation.FrameHeight * Scale, ColliderType.Enemy);
 
             InitializeFsm();
         }
@@ -69,9 +89,10 @@ namespace TopDownHordeShooter.Entities.Characters
             if (!Active) return;
             
             // Handle behaviour
-            Sense();
+            Sense(gameTime);
             Think(gameTime);
             
+            CharacterAnimation.FacingLeft = Direction.X > 0; 
             CharacterAnimation.Position = Position;
             CharacterAnimation.Update(gameTime);
             
@@ -84,19 +105,21 @@ namespace TopDownHordeShooter.Entities.Characters
         
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (!Active) return;
-            CharacterAnimation.Draw(spriteBatch);
+            // This means it's not active as well as having executed the death animation
+            // there's a problem and the death animation doesn't show
+            if (!Active && CharacterAnimation == Animations.Find(animation => animation.AnimationType == AnimationTypes.Death) && CanChangeAnimation) return;
+            CharacterAnimation?.Draw(spriteBatch);
         }
 
         
         // Draw imaginary aggro box around enemy and check if player is inside
-        private bool CheckPlayerInRange() 
+        protected bool CheckPlayerInRange() 
             => PlayerPosition.X >= Position.X - _visionRange 
                && PlayerPosition.X <= Position.X + _visionRange 
                && PlayerPosition.Y <= Position.Y + _visionRange 
                && PlayerPosition.Y >= Position.Y - _visionRange;
 
-        private void Sense() => PlayerInRange = CheckPlayerInRange();
+        protected abstract void Sense(GameTime gameTime);
         
         private void Think(GameTime gameTime) => Fsm.Update(gameTime); 
     }

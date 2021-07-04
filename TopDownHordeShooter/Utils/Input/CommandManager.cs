@@ -2,6 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
+/*
+ * Old implementation of player movement capture
+ */
 namespace TopDownHordeShooter.Utils.Input
 {
     public delegate void GameAction(EButtonState buttonState, Vector2 amount);

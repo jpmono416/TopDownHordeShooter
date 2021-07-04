@@ -13,6 +13,8 @@ namespace TopDownHordeShooter.Entities.Combat.Weapons
             MaxBulletsPerMag = 200;
             CurrentBulletsInMag = MaxBulletsPerMag;
             RemainingBullets = MaxBulletsPerMag * 2;
+            RateOfFireOffset = 0.2f;
+            LevelToUnlock = 11;
         }
     }
 }

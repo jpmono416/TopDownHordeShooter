@@ -6,12 +6,11 @@ namespace TopDownHordeShooter.Entities.Pickups
 {
     public class FridgePickup : BasePickup
     {
-        public FridgePickup() 
+        public FridgePickup(int spawnTimeSeconds) 
         {
             Width = 9;
-            SpriteSheetCoordinates = new Rectangle(56, 0, Width, Height);  
-            //SpawnTime = TimeSpan.FromMinutes(2);
-            SpawnTime = TimeSpan.FromSeconds(10);
+            SpriteSheetCoordinates = new Rectangle(56, 0, Width, Height);
+            SpawnTimeSpan = TimeSpan.FromSeconds(spawnTimeSeconds + 80);
         }
 
         protected override void ApplyEffect(Player player, GameTime gameTime)
